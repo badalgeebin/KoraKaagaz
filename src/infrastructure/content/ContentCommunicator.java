@@ -104,7 +104,7 @@ public class ContentCommunicator implements IContentCommunicator{
 		jsonObject.put("meta", "newUser");
 		jsonObject.remove("ipAddress");
 		communicator.send(serverIPAddress, jsonObject.toString(), "contentServer");
-    }
+	}
 	
 	/**
 	 * This method gets the message from UI module and then send it via networking module
@@ -112,10 +112,10 @@ public class ContentCommunicator implements IContentCommunicator{
 	 * @param message - This is a JSON string which contains a JSON object with key "message"
 	 */
 	public void sendMessageToContent(String message) {
-    	JSONObject jsonObject = new JSONObject(message);
-    	jsonObject.put("meta", "message");
-    	communicator.send(serverIPAddress, jsonObject.toString(), "contentServer");
-    }
+		JSONObject jsonObject = new JSONObject(message);
+		jsonObject.put("meta", "message");
+		communicator.send(serverIPAddress, jsonObject.toString(), "contentServer");
+	}
 	
 	/**
 	 * This method clears all the maps created by content module locally and informs the
@@ -123,14 +123,14 @@ public class ContentCommunicator implements IContentCommunicator{
 	 * a JSON object with two keys, meta and username via networking module
 	 */
 	public void notifyUserExit() {
-    	mapImage.clear();
-    	mapHandler.clear();
-    	JSONObject jsonObject = new JSONObject();
-    	jsonObject.put("meta", "userExit");
-    	jsonObject.put("username", userName);
-    	communicator.send(serverIPAddress, jsonObject.toString(), "contentServer");
-    }
-    
+		mapImage.clear();
+		mapHandler.clear();
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("meta", "userExit");
+		jsonObject.put("username", userName);
+		communicator.send(serverIPAddress, jsonObject.toString(), "contentServer");
+	}
+	
 	/**
 	 * UI will subscribe to us in order to receive any updates coming from other users
 	 * In this method, identifier and handler will be updated in the HashMap mapHandler
@@ -139,5 +139,5 @@ public class ContentCommunicator implements IContentCommunicator{
 	 */
 	public void subscribeForNotifications(String identifier, IContentNotificationHandler handler) {
 		mapHandler.put(identifier, handler);
-    }
+	}
 }
