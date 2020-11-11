@@ -36,9 +36,8 @@ public class ServerPort implements IServerPort {
 	 */
 	protected int getPort() {
 		if (port == 0) {
-			logMessage = "content: Port Value not yet sent by processing module";
+			logMessage = "Port Value not yet sent by processing module";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.WARNING, logMessage);
-			return -1;
 		}
 		return port;
 	}
