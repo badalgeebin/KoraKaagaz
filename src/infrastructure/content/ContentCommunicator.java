@@ -22,7 +22,7 @@ public class ContentCommunicator implements IContentCommunicator{
 	/**
 	 * This variable will store the username/userid of client as a String.
 	 */
-	private String userName;
+	private static String userName;
 	
 	/**
 	 * This variable will store the image of client in String format.
@@ -38,13 +38,13 @@ public class ContentCommunicator implements IContentCommunicator{
 	 * Creating a HashMap to store userName and userImage of all active clients of a particular board.
 	 * Both userName and userImage are of String type
 	 */
-	private HashMap<String, String> imageMap = new HashMap<String, String>();
+	private static HashMap<String, String> imageMap = new HashMap<String, String>();
 	
 	/**
 	 * Creating a HashMap to store the identifier and handler of subscriber of this module,
 	 * identifier is of type String while handler is of type IContentNotificationHandler.
 	 */
-	private HashMap<String, IContentNotificationHandler> handlerMap = new HashMap<String, IContentNotificationHandler>();
+	private static HashMap<String, IContentNotificationHandler> handlerMap = new HashMap<String, IContentNotificationHandler>();
 	
 	/**
 	 * An instance of ServerPort class is created and stored the variable serverPort.
@@ -63,12 +63,12 @@ public class ContentCommunicator implements IContentCommunicator{
 	/**
 	 * logger is the instance of the class which implements ILogger interface.
 	 */
-	private ILogger logger = LoggerFactory.getLoggerInstance();
+	private static ILogger logger = LoggerFactory.getLoggerInstance();
 	
 	/**
 	 * This variable will store the String which will be passed to log method of logger
 	 */
-	private String logMessage;
+	private static String logMessage;
 	
 	/**
 	 * Constructor. Inside this, an instance of NetworkMessageHandler class is created and then,
@@ -83,7 +83,7 @@ public class ContentCommunicator implements IContentCommunicator{
 	 * This method provides userName to other classes within this package.
 	 * @return userName - username of the client.
 	 */
-	protected String getUserName() {
+	protected static String getUserName() {
 		if (userName != null) {
 			logMessage = "getUserName method of ContentCommunicator class is executing";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
@@ -99,7 +99,7 @@ public class ContentCommunicator implements IContentCommunicator{
 	 * This method provides HashMap imageMap to other classes within this package.
 	 * @return imageMap - The HashMap which stores the userName and userImage.
 	 */
-	protected HashMap<String, String> getImageMap() {
+	protected static HashMap<String, String> getImageMap() {
 		logMessage = "getImageMap method of ContentCommunicator class is executing";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		return imageMap;
@@ -107,19 +107,19 @@ public class ContentCommunicator implements IContentCommunicator{
 	
 	/**
 	 * This method allows other classes within this package to set the HashMap imageMap.
-	 * @param imageMap - The HashMap which stores the userName and userImage of all clients.
+	 * @param imagemap - The HashMap which stores the userName and userImage of all clients.
 	 */
-	protected void setImageMap(HashMap<String, String> imageMap) {
+	protected static void setImageMap(HashMap<String, String> imagemap) {
 		logMessage = "setImageMap method of ContentCommunicator class is executing";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
-		this.imageMap = imageMap;
+		imageMap = imagemap;
 	}
 	
 	/**
 	 * This method provides HashMap handlerMap to other classes within this package.
 	 * @return handlerMap - The HashMap which stores the identifier and handler of subscriber of this module.
 	 */
-	protected HashMap<String, IContentNotificationHandler> getHandlerMap() {
+	protected static HashMap<String, IContentNotificationHandler> getHandlerMap() {
 		logMessage = "getHandlerMap method of ContentCommunicator class is executing";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		return handlerMap;
