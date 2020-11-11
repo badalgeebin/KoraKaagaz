@@ -99,6 +99,8 @@ public class ContentServer implements INotificationHandler{
 		// logging to logger
 		logMessage = "onMessageReceived method of ContentServer class is going to be executed";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
+		// Obtaining the userName to ipAddress map from processing
+		userIpMap = (HashMap<Username, IpAddress>) clientIP.getClientIP();
 		// storing message in the form of JSON Object
 		JSONObject jsonObject;
 		try {
@@ -139,6 +141,8 @@ public class ContentServer implements INotificationHandler{
 			}
 			// updating imageMap
 			imageMap.put(userName, userImage);
+			jsonObject.remove("userName");
+			jsonObject.remove("image");
 			// declaring a JSON Array and a temporary JSON Object
 			JSONArray jsonArray = new JSONArray();
 			JSONObject tempJsonObject = new JSONObject();
@@ -152,10 +156,11 @@ public class ContentServer implements INotificationHandler{
 				tempJsonObject.remove("username");
 				tempJsonObject.remove("image");
 			}
+			jsonObject.put("imageMap", jsonArray);
 			// logging to logger
 			logMessage = "The JSON Array is created which contains the userName to userImage Map";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
-			sendToAll(jsonArray.toString());
+			sendToAll(jsonObject.toString());
 			// logging to logger
 			logMessage = "The JSON Array is now being broadcasted to all clients";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
@@ -200,6 +205,10 @@ public class ContentServer implements INotificationHandler{
 				return;
 			}
 			imageMap.remove(userName);
+			Username userNameP = new Username(userName);
+			if (userIpMap.containsKey(userNameP)) {
+				userIpMap.remove(userNameP);
+			}
 			// logging to logger
 			logMessage = "The message is now being broadcasted to all clients";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
@@ -225,8 +234,6 @@ public class ContentServer implements INotificationHandler{
 		// logging to logger
 		logMessage = "sendToAll method of ContentServer class is going to be executed";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
-		// Obtaining the userName to ipAddress map from processing
-		userIpMap = (HashMap<Username, IpAddress>) clientIP.getClientIP();
 		for (Username name: userIpMap.keySet()) {
 			userName = name.toString();
 			ipAddress = userIpMap.get(name);
