@@ -47,18 +47,18 @@ public class ContentCommunicator implements IContentCommunicator{
 	private static HashMap<String, IContentNotificationHandler> handlerMap = new HashMap<String, IContentNotificationHandler>();
 	
 	/**
-	 * An instance of ServerPort class is created and stored the variable serverPort.
+	 * An instance of ServerPort class is fetched and stored in the variable serverPort.
 	 */
-	private ServerPort serverPort = new ServerPort();
+	private IServerPort serverPort = ContentFactory.getServerPort();
 	/**
 	 * The variable port will store the port number of the board which the client is accessing.
 	 */
-	private int port = serverPort.getPort();
+	private int port;
 	
 	/**
 	 * This variable will store the communicator of networking module to send data over the network.
 	 */
-	private ICommunicator communicator = CommunicatorFactory.getCommunicator(port);
+	private ICommunicator communicator = CommunicatorFactory.getCommunicator(0);
 	
 	/**
 	 * logger is the instance of the class which implements ILogger interface.
@@ -162,6 +162,12 @@ public class ContentCommunicator implements IContentCommunicator{
 			userImage = jsonObject.getString("image");
 		} catch(Exception e) {
 			logMessage = "the value of image key in argument userDetails is not a String";
+			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.ERROR, logMessage);
+			return;
+		}
+		port = serverPort.getPort();
+		if (port == 0) {
+			logMessage = "The port value is not yet updated, cannot create server's ipAddress";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.ERROR, logMessage);
 			return;
 		}
