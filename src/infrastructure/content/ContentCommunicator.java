@@ -1,16 +1,14 @@
 package infrastructure.content;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.HashMap;
-import org.json.JSONObject;
 import infrastructure.validation.logger.ILogger;
 import infrastructure.validation.logger.LogLevel;
 import infrastructure.validation.logger.LoggerFactory;
 import infrastructure.validation.logger.ModuleID;
+import java.util.HashMap;
 import networking.CommunicatorFactory;
 import networking.ICommunicator;
 import networking.INotificationHandler;
+import org.json.JSONObject;
 
 /**
  * This class ContentCommunicator implements the IContentCommunicator interface and all the 
@@ -76,7 +74,7 @@ public class ContentCommunicator implements IContentCommunicator{
 	 * Constructor. Inside this, an instance of NetworkMessageHandler class is created and then,
 	 * it is used for subscribing to the networking module to receive messages related to content.
 	 */
-	private ContentCommunicator() {
+	protected ContentCommunicator() {
 		INotificationHandler nmh = new NetworkMessageHandler();
 		communicator.subscribeForNotifications("content", nmh);
 	}
@@ -87,11 +85,11 @@ public class ContentCommunicator implements IContentCommunicator{
 	 */
 	protected String getUserName() {
 		if (userName != null) {
-			logMessage = "content: providing userName to caller of getUserName method";
+			logMessage = "getUserName method of ContentCommunicator class is executing";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		}
 		else {
-			logMessage = "content: value of userName yet to be set";
+			logMessage = "value of userName yet to be set in ContentCommunicator class";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.WARNING, logMessage);
 		}
 		return userName;
@@ -102,7 +100,7 @@ public class ContentCommunicator implements IContentCommunicator{
 	 * @return imageMap - The HashMap which stores the userName and userImage.
 	 */
 	protected HashMap<String, String> getImageMap() {
-		logMessage = "content: providing imageMap to caller of getImageMap method";
+		logMessage = "getImageMap method of ContentCommunicator class is executing";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		return imageMap;
 	}
@@ -112,7 +110,7 @@ public class ContentCommunicator implements IContentCommunicator{
 	 * @param imageMap - The HashMap which stores the userName and userImage of all clients.
 	 */
 	protected void setImageMap(HashMap<String, String> imageMap) {
-		logMessage = "content: updating the imageMap of ContentCommunicator class";
+		logMessage = "setImageMap method of ContentCommunicator class is executing";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		this.imageMap = imageMap;
 	}
@@ -122,7 +120,7 @@ public class ContentCommunicator implements IContentCommunicator{
 	 * @return handlerMap - The HashMap which stores the identifier and handler of subscriber of this module.
 	 */
 	protected HashMap<String, IContentNotificationHandler> getHandlerMap() {
-		logMessage = "content: providing handlerMap to caller of getHandlerMap method";
+		logMessage = "getHandlerMap method of ContentCommunicator class is executing";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		return handlerMap;
 	}
@@ -136,54 +134,48 @@ public class ContentCommunicator implements IContentCommunicator{
 	 */
 	@Override
 	public void initialiseUser(String userDetails) {
+		logMessage = "initialiseUser method of ContentCommunicator class is executing";
+		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		JSONObject jsonObject;
 		try {
 			jsonObject = new JSONObject(userDetails);
 		} catch(Exception e) {
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			logMessage = "content: "+sw.toString();
+			logMessage = "Argument userDetails cannot be converted to JSON object";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.ERROR, logMessage);
 			return;
 		}
 		try {
 			serverIPAddress = jsonObject.getString("ipAddress");
 		} catch(Exception e) {
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			logMessage = "content: "+sw.toString();
+			logMessage = "the value of ipAddress key in argument userDetails is not a String";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.ERROR, logMessage);
 			return;
 		}
 		try {
 			userName = jsonObject.getString("username");
 		} catch(Exception e) {
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			logMessage = "content: "+sw.toString();
+			logMessage = "the value of username key in argument userDetails is not a String";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.ERROR, logMessage);
 			return;
 		}
 		try {
 			userImage = jsonObject.getString("image");
 		} catch(Exception e) {
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			logMessage = "content: "+sw.toString();
+			logMessage = "the value of image key in argument userDetails is not a String";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.ERROR, logMessage);
 			return;
 		}
 		serverIPAddress += ":";
 		serverIPAddress += String.valueOf(port);
-		logMessage = "content: server's ipAddress in ContentCommunicator class created";
+		logMessage = "server's ipAddress in ContentCommunicator class created";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		imageMap.put(userName, userImage);
 		jsonObject.put("meta", "newUser");
 		jsonObject.remove("ipAddress");
-		communicator.send(serverIPAddress, jsonObject.toString(), "contentServer");
-		logMessage = "content: desired message passed to networking to send it to server";
+		communicator.send(serverIPAddress, jsonObject.toString(), "content");
+		logMessage = "Desired message passed to networking to send it to server";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
-		logMessage = "content: Successfully finished the initialiseUser method of ContentCommunicator class";
+		logMessage = "Successfully finished the initialiseUser method of ContentCommunicator class";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.SUCCESS, logMessage);
 	}
 	
@@ -195,22 +187,22 @@ public class ContentCommunicator implements IContentCommunicator{
 	 */
 	@Override
 	public void sendMessageToContent(String message) {
+		logMessage = "sendMessageToContent method of ContentCommunicator class is executing";
+		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		JSONObject jsonObject;
 		try {
 			jsonObject = new JSONObject(message);
 		} catch(Exception e) {
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			logMessage = "content: "+sw.toString();
+			logMessage = "Argument message cannot be converted to JSON object";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.ERROR, logMessage);
 			return;
 		}
 		jsonObject.put("meta", "message");
 		jsonObject.put("username",userName);
-		communicator.send(serverIPAddress, jsonObject.toString(), "contentServer");
-		logMessage = "content: desired message passed to networking to send it to server";
+		communicator.send(serverIPAddress, jsonObject.toString(), "content");
+		logMessage = "Desired message passed to networking to send it to server";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
-		logMessage = "content: Successfully finished the sendMessageToContent method of ContentCommunicator class";
+		logMessage = "Successfully finished the sendMessageToContent method of ContentCommunicator class";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.SUCCESS, logMessage);
 	}
 	
@@ -221,19 +213,19 @@ public class ContentCommunicator implements IContentCommunicator{
 	 */
 	@Override
 	public void notifyUserExit() {
-		logMessage = "content: notifyUserExit method of ContentCommunicator is called";
+		logMessage = "notifyUserExit method of ContentCommunicator is executing";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		imageMap.clear();
 		handlerMap.clear();
-		logMessage = "content: imageMap and handlerMap of ContentCommunicator class are cleared";
+		logMessage = "imageMap and handlerMap of ContentCommunicator class are cleared";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("meta", "userExit");
 		jsonObject.put("username", userName);
-		communicator.send(serverIPAddress, jsonObject.toString(), "contentServer");
-		logMessage = "content: desired message passed to networking to send it to server";
+		communicator.send(serverIPAddress, jsonObject.toString(), "content");
+		logMessage = "Desired message passed to networking to send it to server";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
-		logMessage = "content: Successfully finished the notifyUserExit method of ContentCommunicator class";
+		logMessage = "Successfully finished the notifyUserExit method of ContentCommunicator class";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.SUCCESS, logMessage);
 	}
 	
@@ -245,12 +237,12 @@ public class ContentCommunicator implements IContentCommunicator{
 	 */
 	@Override
 	public void subscribeForNotifications(String identifier, IContentNotificationHandler handler) {
-		logMessage = "content: subscribeForNotification method of ContentCommunicator class is called";
+		logMessage = "subscribeForNotification method of ContentCommunicator class is executing";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		handlerMap.put(identifier, handler);
-		logMessage = "content: Added an element to handlerMap of ContentCommunicator class of identifier "+identifier;
+		logMessage = "Added an element to handlerMap of ContentCommunicator class of identifier "+identifier;
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
-		logMessage = "content: Successfully finished the subscibeForNotifications method of ContentCommunicator class";
+		logMessage = "Successfully finished the subscibeForNotifications method of ContentCommunicator class";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.SUCCESS, logMessage);
 	}
 }
