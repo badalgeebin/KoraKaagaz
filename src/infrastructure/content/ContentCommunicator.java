@@ -166,10 +166,13 @@ public class ContentCommunicator implements IContentCommunicator{
 			return;
 		}
 		port = serverPort.getPort();
-		if (port == 0) {
+		while (port == 0) {
 			logMessage = "The port value is not yet updated, cannot create server's ipAddress";
 			logger.log(ModuleID.INFRASTRUCTURE, LogLevel.ERROR, logMessage);
-			return;
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {}
+			port = serverPort.getPort();
 		}
 		serverIPAddress += ":";
 		serverIPAddress += String.valueOf(port);
