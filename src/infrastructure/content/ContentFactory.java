@@ -4,8 +4,8 @@ import infrastructure.content.server.ContentServer;
 
 /**
  * This is a factory class of content module which contains instantiation of
- * ContentCommunicator class and ServerPort class in two different methods from
- * which other modules can get the object of those classes.
+ * ContentCommunicator class,  ServerPort class and ContentServer class in separate
+ * methods from which other modules can get the object of those classes.
  * @author Badal Kumar (111701008)
  */
 public final class ContentFactory {
