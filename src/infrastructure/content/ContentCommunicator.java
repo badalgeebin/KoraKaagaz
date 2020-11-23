@@ -71,11 +71,16 @@ public class ContentCommunicator implements IContentCommunicator{
 	private static String logMessage;
 	
 	/**
+	 * A handler of INotificationHandler type
+	 */
+	public INotificationHandler nmh;
+	
+	/**
 	 * Constructor. Inside this, an instance of NetworkMessageHandler class is created and then,
 	 * it is used for subscribing to the networking module to receive messages related to content.
 	 */
 	protected ContentCommunicator() {
-		INotificationHandler nmh = new NetworkMessageHandler();
+		nmh = new NetworkMessageHandler();
 		communicator.subscribeForNotifications("content", nmh);
 	}
 	
