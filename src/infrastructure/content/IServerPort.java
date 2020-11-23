@@ -10,7 +10,7 @@ public interface IServerPort {
 	 * the processing module calls this method to send port of board server to each new client
 	 * @param port - This is the port of board server in int datatype
 	 */
-	void sendPort(int port);
+	void setPort(int port);
 	
 	/**
 	 * This method will be used by content module itself to fetch the port value of server.
