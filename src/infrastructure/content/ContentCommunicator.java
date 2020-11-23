@@ -185,7 +185,7 @@ public class ContentCommunicator implements IContentCommunicator{
 		imageMap.put(userName, userImage);
 		jsonObject.put("meta", "newUser");
 		jsonObject.remove("ipAddress");
-		communicator.send(boardServerFullAddress, jsonObject.toString(), "content");
+		communicator.send(boardServerFullAddress, jsonObject.toString(), "contentServer");
 		logMessage = "Desired message passed to networking to send it to server";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		logMessage = "Successfully finished the initialiseUser method of ContentCommunicator class";
@@ -212,7 +212,7 @@ public class ContentCommunicator implements IContentCommunicator{
 		}
 		jsonObject.put("meta", "message");
 		jsonObject.put("username",userName);
-		communicator.send(boardServerFullAddress, jsonObject.toString(), "content");
+		communicator.send(boardServerFullAddress, jsonObject.toString(), "contentServer");
 		logMessage = "Desired message passed to networking to send it to server";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		logMessage = "Successfully finished the sendMessageToContent method of ContentCommunicator class";
@@ -235,7 +235,7 @@ public class ContentCommunicator implements IContentCommunicator{
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("meta", "userExit");
 		jsonObject.put("username", userName);
-		communicator.send(boardServerFullAddress, jsonObject.toString(), "content");
+		communicator.send(boardServerFullAddress, jsonObject.toString(), "contentServer");
 		logMessage = "Desired message passed to networking to send it to server";
 		logger.log(ModuleID.INFRASTRUCTURE, LogLevel.INFO, logMessage);
 		logMessage = "Successfully finished the notifyUserExit method of ContentCommunicator class";
